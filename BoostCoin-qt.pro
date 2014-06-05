@@ -21,8 +21,8 @@ win32 {
     LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
     LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
     windows:LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
-    LIBS += -lboost_system-mgw48-mt-s-1_55 -lboost_filesystem-mgw48-mt-s-1_55 -lboost_program_options-mgw48-mt-s-1_55 -lboost_thread-mgw48-mt-s-1_55
-    BOOST_LIB_SUFFIX=-mgw48-mt-s-1_55
+    LIBS += -lboost_system-mt-s -lboost_filesystem-mt-s -lboost_program_options-mt-s -lboost_thread-mt-s
+    BOOST_LIB_SUFFIX=-mt-s
     BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
     BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
     BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
@@ -410,7 +410,7 @@ OTHER_FILES += \
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
     macx:BOOST_LIB_SUFFIX = -mt
-    win32:BOOST_LIB_SUFFIX = -mgw48-mt-s-1_55
+    win32:BOOST_LIB_SUFFIX = -mt-s
 }
 
 isEmpty(BOOST_THREAD_LIB_SUFFIX) {
