@@ -103,6 +103,23 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
 
 INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
+SOURCES += src/txdb-leveldb.cpp \
+    src/bloom.cpp \
+    src/hash.cpp \
+    src/aes_helper.c \
+    src/blake.c \
+    src/bmw.c \
+    src/cubehash.c \
+    src/echo.c \
+    src/groestl.c \
+    src/jh.c \
+    src/keccak.c \
+    src/luffa.c \
+    src/shavite.c \
+    src/simd.c \
+    src/skein.c \
+    src/fugue.c \
+    src/hamsi.c
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
     genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
