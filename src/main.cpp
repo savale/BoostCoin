@@ -49,7 +49,7 @@ static const int64_t nInterval = nTargetTimespan_legacy / nTargetSpacing;
 
 static const int64_t nTargetTimespan = 16 * 60;
 
-int64_t devCoin = 15 * COIN;
+int64_t devCoin = 0 * COIN; // dev coins
 int nCoinbaseMaturity = 100;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -973,14 +973,14 @@ int64_t GetProofOfWorkReward(int64_t nFees)
 {
     if (pindexBest->nHeight == 1)
       {
-        int64_t nSubsidy = 400000 * COIN;
+        int64_t nSubsidy = 150000 * COIN;
         if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
         return nSubsidy + nFees;
       }
     else
     {
-        int64_t nSubsidy = 515 * COIN;
+        int64_t nSubsidy = 150 * COIN;
         if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
         return nSubsidy + nFees;
@@ -1643,17 +1643,17 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex, bool fJustCheck)
                    vtx[0].GetValueOut(),
                    nReward));
     }
-
-    if(IsProofOfWork())
-    {
-        CBitcoinAddress address(!fTestNet ? FOUNDATION : FOUNDATION_TEST);
-        CScript scriptPubKey;
-        scriptPubKey.SetDestination(address.Get());
-        if (vtx[0].vout[1].scriptPubKey != scriptPubKey)
-            return error("ConnectBlock() : coinbase does not pay to the dev address)");
-        if (vtx[0].vout[1].nValue < devCoin)
-            return error("ConnectBlock() : coinbase does not pay enough to dev addresss");
-    }
+// dev coins
+//    if(IsProofOfWork())
+//    {
+//        CBitcoinAddress address(!fTestNet ? FOUNDATION : FOUNDATION_TEST);
+//        CScript scriptPubKey;
+//        scriptPubKey.SetDestination(address.Get());
+//        if (vtx[0].vout[1].scriptPubKey != scriptPubKey)
+//            return error("ConnectBlock() : coinbase does not pay to the dev address)");
+//        if (vtx[0].vout[1].nValue < devCoin)
+//            return error("ConnectBlock() : coinbase does not pay enough to dev addresss");
+//    }
 
     if (IsProofOfStake())
     {
