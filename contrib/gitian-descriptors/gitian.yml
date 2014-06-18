@@ -1,12 +1,12 @@
 ---
 name: "boostcoin"
 suites:
-- "lucid"
+- "precise"
 architectures:
 - "i386"
 - "amd64"
 packages: 
-- "libdb4.8++-dev"
+- "libdb5.1++-dev"
 - "qt4-qmake"
 - "libqt4-dev"
 - "libboost-system-dev"
@@ -41,6 +41,7 @@ script: |
   cd ..
   #
   cd boostcoin
+  sudo chmod 777 src/leveldb/build_detect_platform
   mkdir -p $OUTDIR/src
   git archive HEAD | tar -x -C $OUTDIR/src
   cp $OUTDIR/src/doc/README $OUTDIR
