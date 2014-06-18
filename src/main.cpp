@@ -49,7 +49,7 @@ static const int64_t nInterval = nTargetTimespan_legacy / nTargetSpacing;
 
 static const int64_t nTargetTimespan = 16 * 60;
 
-int64_t devCoin = 15 * COIN;
+int64_t devCoin = 0 * COIN; // dev coins
 int nCoinbaseMaturity = 100;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -973,14 +973,14 @@ int64_t GetProofOfWorkReward(int64_t nFees)
 {
     if (pindexBest->nHeight == 1)
       {
-        int64_t nSubsidy = 400000 * COIN;
+        int64_t nSubsidy = 150000 * COIN;
         if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
         return nSubsidy + nFees;
       }
     else
     {
-        int64_t nSubsidy = 515 * COIN;
+        int64_t nSubsidy = 150 * COIN;
         if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
         return nSubsidy + nFees;
@@ -1643,17 +1643,17 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex, bool fJustCheck)
                    vtx[0].GetValueOut(),
                    nReward));
     }
-
-    if(IsProofOfWork())
-    {
-        CBitcoinAddress address(!fTestNet ? FOUNDATION : FOUNDATION_TEST);
-        CScript scriptPubKey;
-        scriptPubKey.SetDestination(address.Get());
-        if (vtx[0].vout[1].scriptPubKey != scriptPubKey)
-            return error("ConnectBlock() : coinbase does not pay to the dev address)");
-        if (vtx[0].vout[1].nValue < devCoin)
-            return error("ConnectBlock() : coinbase does not pay enough to dev addresss");
-    }
+// dev coins
+//    if(IsProofOfWork())
+//    {
+//        CBitcoinAddress address(!fTestNet ? FOUNDATION : FOUNDATION_TEST);
+//        CScript scriptPubKey;
+//        scriptPubKey.SetDestination(address.Get());
+//        if (vtx[0].vout[1].scriptPubKey != scriptPubKey)
+//            return error("ConnectBlock() : coinbase does not pay to the dev address)");
+//        if (vtx[0].vout[1].nValue < devCoin)
+//            return error("ConnectBlock() : coinbase does not pay enough to dev addresss");
+//    }
 
     if (IsProofOfStake())
     {
@@ -2576,7 +2576,7 @@ bool LoadBlockIndex(bool fAllowNew)
 
         const char* pszTimestamp = "x13 BoostCoin to Mars!... Again!";
         CTransaction txNew;
-        txNew.nTime = 1400512373;
+        txNew.nTime = 1402988570;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -2586,12 +2586,12 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1400512373;
+        block.nTime    = 1402988570;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
         block.nNonce   = 5726282;
         if(fTestNet)
         {
-            block.nNonce   = 1908795;
+            block.nNonce   = 1912346;
         }
         if (true  && (block.GetHash() != hashGenesisBlock)) {
 
@@ -2615,7 +2615,7 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("block.nNonce = %u \n", block.nNonce);
 
         //// debug print
-        assert(block.hashMerkleRoot == uint256("603add6547a4c67f12f5a5fb5100fb455e3515b05e58a44a29a4496f7fcaaaf7"));
+        assert(block.hashMerkleRoot == uint256("bee3120e3a90e2aaddb01b642ecc680b1cdcbefed3ddfaec352b5b4f0652a1fa"));
         block.print();
         assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
         assert(block.CheckBlock());
